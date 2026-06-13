@@ -21,7 +21,6 @@ HOMEHINDOW_CONTROL_BLOCK homeHindow;
 GX_DISPLAY HOME_control_block;
 GX_WINDOW_ROOT HOME_root_window;
 GX_CANVAS  HOME_canvas_control_block;
-ULONG      HOME_canvas_memory[65280];
 
 extern GX_CONST GX_THEME *HOME_theme_table[];
 extern GX_CONST GX_STRING *HOME_language_table[];
@@ -41,11 +40,16 @@ GX_STUDIO_DISPLAY_INFO ui_display_table[1] =
     &HOME_control_block,
     &HOME_canvas_control_block,
     &HOME_root_window,
-    HOME_canvas_memory,                      /* canvas memory area             */
+    GX_NULL,                                 /* canvas memory area             */
     261120,                                  /* canvas memory size in bytes    */
     GX_SCREEN_ROTATION_NONE                  /* rotation angle                 */
     }
 };
+
+VOID ui_set_home_canvas_memory(GX_COLOR *memory)
+{
+    ui_display_table[HOME].canvas_memory = memory;
+}
 
 
 UINT gx_studio_text_button_create(GX_CONST GX_STUDIO_WIDGET *info, GX_WIDGET *control_block, GX_WIDGET *parent)

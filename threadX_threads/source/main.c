@@ -44,6 +44,9 @@ static ULONG guix_thread_stack[GUIX_THREAD_STACK_SIZE / sizeof(ULONG)];
 
 static ULONG shared_counter = 0U;
 
+/* GUIX canvas memory pointer — points to SDRAM, used by ui_specifications.c */
+ULONG *HOME_canvas_memory;
+
 /*******************************************************************************
  * Prototypes
  ******************************************************************************/
@@ -117,6 +120,10 @@ static void guix_thread_entry(ULONG thread_input)
     GX_WINDOW_ROOT *root;
 
     TX_PARAMETER_NOT_USED(thread_input);
+
+    /* Point GUIX canvas memory to SDRAM. */
+    HOME_canvas_memory = lpc_guix_get_canvas_memory();
+    ui_set_home_canvas_memory((GX_COLOR *)HOME_canvas_memory);
 
     /* Initialize GUIX. */
     gx_system_initialize();

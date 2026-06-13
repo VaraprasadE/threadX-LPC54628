@@ -28,6 +28,8 @@
 #define LCD_INPUT_CLK_FREQ CLOCK_GetLcdClkFreq()
 #define APP_LCD_IRQHandler LCD_IRQHandler
 #define APP_LCD_IRQn       LCD_IRQn
+#define SDRAM_BASE_ADDR    0xa0000000
+#define SDRAM_SIZE_BYTES   (8 * 1024 * 1024)
 /*${macro:end}*/
 
 /*******************************************************************************

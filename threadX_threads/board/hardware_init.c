@@ -44,6 +44,7 @@ void BOARD_InitHardware(void)
     BOARD_InitBootPins();
     BOARD_InitBootClocks();
     BOARD_InitDebugConsole();
+    BOARD_InitSDRAM();
 
     /* Set the back light PWM. */
     BOARD_InitPWM();

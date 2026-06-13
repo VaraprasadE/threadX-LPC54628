@@ -153,7 +153,66 @@ void BOARD_InitPins(void)
     IOCON_PinMuxSet(IOCON, 3U, 7U,  lcd_pin_config);  /* LCD_VD(21) */
     IOCON_PinMuxSet(IOCON, 3U, 8U,  lcd_pin_config);  /* LCD_VD(22) */
     IOCON_PinMuxSet(IOCON, 3U, 9U,  lcd_pin_config);  /* LCD_VD(23) */
+
+    /* ---- EMC SDRAM pin configuration ---- */
+    const uint32_t emc_pin_config = (IOCON_PIO_FUNC6 |
+                                     IOCON_PIO_MODE_INACT |
+                                     IOCON_PIO_INV_DI |
+                                     IOCON_PIO_DIGITAL_EN |
+                                     IOCON_PIO_INPFILT_OFF |
+                                     IOCON_PIO_SLEW_FAST |
+                                     IOCON_PIO_OPENDRAIN_DI);
+
+    /* EMC data pins D0..D7 */
+    IOCON_PinMuxSet(IOCON, 0U, 2U,  emc_pin_config);  /* EMC_D(0)  */
+    IOCON_PinMuxSet(IOCON, 0U, 3U,  emc_pin_config);  /* EMC_D(1)  */
+    IOCON_PinMuxSet(IOCON, 0U, 4U,  emc_pin_config);  /* EMC_D(2)  */
+    IOCON_PinMuxSet(IOCON, 0U, 5U,  emc_pin_config);  /* EMC_D(3)  */
+    IOCON_PinMuxSet(IOCON, 0U, 6U,  emc_pin_config);  /* EMC_D(4)  */
+    IOCON_PinMuxSet(IOCON, 0U, 7U,  emc_pin_config);  /* EMC_D(5)  */
+    IOCON_PinMuxSet(IOCON, 0U, 8U,  emc_pin_config);  /* EMC_D(6)  */
+    IOCON_PinMuxSet(IOCON, 0U, 9U,  emc_pin_config);  /* EMC_D(7)  */
+
+    /* EMC data pins D8..D15 */
+    IOCON_PinMuxSet(IOCON, 1U, 19U, emc_pin_config);  /* EMC_D(8)  */
+    IOCON_PinMuxSet(IOCON, 1U, 20U, emc_pin_config);  /* EMC_D(9)  */
+    IOCON_PinMuxSet(IOCON, 1U, 21U, emc_pin_config);  /* EMC_D(10) */
+    IOCON_PinMuxSet(IOCON, 1U, 4U,  emc_pin_config);  /* EMC_D(11) */
+    IOCON_PinMuxSet(IOCON, 1U, 28U, emc_pin_config);  /* EMC_D(12) */
+    IOCON_PinMuxSet(IOCON, 1U, 29U, emc_pin_config);  /* EMC_D(13) */
+    IOCON_PinMuxSet(IOCON, 1U, 30U, emc_pin_config);  /* EMC_D(14) */
+    IOCON_PinMuxSet(IOCON, 1U, 31U, emc_pin_config);  /* EMC_D(15) */
+
+    /* EMC address pins A0..A9 */
+    IOCON_PinMuxSet(IOCON, 0U, 18U, emc_pin_config);  /* EMC_A(0)  */
+    IOCON_PinMuxSet(IOCON, 0U, 19U, emc_pin_config);  /* EMC_A(1)  */
+    IOCON_PinMuxSet(IOCON, 0U, 20U, emc_pin_config);  /* EMC_A(2)  */
+    IOCON_PinMuxSet(IOCON, 0U, 21U, emc_pin_config);  /* EMC_A(3)  */
+    IOCON_PinMuxSet(IOCON, 1U, 5U,  emc_pin_config);  /* EMC_A(4)  */
+    IOCON_PinMuxSet(IOCON, 1U, 6U,  emc_pin_config);  /* EMC_A(5)  */
+    IOCON_PinMuxSet(IOCON, 1U, 7U,  emc_pin_config);  /* EMC_A(6)  */
+    IOCON_PinMuxSet(IOCON, 1U, 8U,  emc_pin_config);  /* EMC_A(7)  */
+    IOCON_PinMuxSet(IOCON, 1U, 26U, emc_pin_config);  /* EMC_A(8)  */
+    IOCON_PinMuxSet(IOCON, 1U, 27U, emc_pin_config);  /* EMC_A(9)  */
+
+    /* EMC address pins A10..A14 */
+    IOCON_PinMuxSet(IOCON, 1U, 16U, emc_pin_config);  /* EMC_A(10) */
+    IOCON_PinMuxSet(IOCON, 1U, 23U, emc_pin_config);  /* EMC_A(11) */
+    IOCON_PinMuxSet(IOCON, 1U, 24U, emc_pin_config);  /* EMC_A(12) */
+    IOCON_PinMuxSet(IOCON, 1U, 25U, emc_pin_config);  /* EMC_A(13) */
+    IOCON_PinMuxSet(IOCON, 3U, 25U, emc_pin_config);  /* EMC_A(14) */
+
+    /* EMC control pins */
+    IOCON_PinMuxSet(IOCON, 0U, 15U, emc_pin_config);  /* EMC_WE    */
+    IOCON_PinMuxSet(IOCON, 1U, 9U,  emc_pin_config);  /* EMC_CAS   */
+    IOCON_PinMuxSet(IOCON, 1U, 10U, emc_pin_config);  /* EMC_RAS   */
+    IOCON_PinMuxSet(IOCON, 1U, 11U, emc_pin_config);  /* EMC_CLK0  */
+    IOCON_PinMuxSet(IOCON, 1U, 12U, emc_pin_config);  /* EMC_DYCS0 */
+    IOCON_PinMuxSet(IOCON, 1U, 13U, emc_pin_config);  /* EMC_DQM0  */
+    IOCON_PinMuxSet(IOCON, 1U, 14U, emc_pin_config);  /* EMC_DQM1  */
+    IOCON_PinMuxSet(IOCON, 1U, 15U, emc_pin_config);  /* EMC_CKE0  */
 }
 /***********************************************************************************************************************
  * EOF
  **********************************************************************************************************************/
+
