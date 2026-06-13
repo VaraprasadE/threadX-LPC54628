@@ -16,6 +16,7 @@
 #include "gx_api.h"
 #include "ui_specifications.h"
 #include "ui_resources.h"
+#include "ui_memory.h"
 #include "lpc_guix_display_driver.h"
 
 /*******************************************************************************
@@ -42,7 +43,7 @@ static ULONG thread_one_stack[THREAD_STACK_SIZE / sizeof(ULONG)];
 static ULONG thread_two_stack[THREAD_STACK_SIZE / sizeof(ULONG)];
 static ULONG guix_thread_stack[GUIX_THREAD_STACK_SIZE / sizeof(ULONG)];
 
-static ULONG shared_counter = 0U;
+volatile ULONG shared_counter = 0U;
 
 /* GUIX canvas memory pointer — points to SDRAM, used by ui_specifications.c */
 ULONG *HOME_canvas_memory;
@@ -89,6 +90,7 @@ static void thread_entry(ULONG thread_input);
 static void guix_thread_entry(ULONG thread_input);
 
 VOID tx_application_define(VOID *first_unused_memory);
+ULONG app_get_shared_counter(void);
 
 /*******************************************************************************
  * Code
@@ -105,6 +107,17 @@ static void thread_entry(ULONG thread_input)
 
         tx_thread_sleep(TX_TIMER_TICKS_PER_SECOND / 2U);
     }
+}
+
+ULONG app_get_shared_counter(void)
+{
+    ULONG value;
+
+    tx_mutex_get(&counter_mutex, TX_WAIT_FOREVER);
+    value = shared_counter;
+    tx_mutex_put(&counter_mutex);
+
+    return value;
 }
 
 /**
@@ -140,6 +153,10 @@ static void guix_thread_entry(ULONG thread_input)
 
     /* Show the root window (makes the canvas visible). */
     gx_widget_show(root);
+
+    /* Start the counter prompt updater.
+       GUIX timer events run in the GUI thread, so the prompt is updated safely. */
+    ui_init_counter_prompt(root);
 
     /* Start GUIX — enters the event loop (does not return). */
     gx_system_start();

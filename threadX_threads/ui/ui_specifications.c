@@ -7,7 +7,7 @@
 /*  https://threadx.io                                                         */
 /*                                                                             */
 /*  GUIX Studio Revision 6.5.1.202602                                          */
-/*  Date (dd.mm.yyyy): 13. 6.2026   Time (hh:mm): 12:15                        */
+/*  Date (dd.mm.yyyy): 13. 6.2026   Time (hh:mm): 17:15                        */
 /*******************************************************************************/
 
 
@@ -21,7 +21,6 @@ HOMEHINDOW_CONTROL_BLOCK homeHindow;
 GX_DISPLAY HOME_control_block;
 GX_WINDOW_ROOT HOME_root_window;
 GX_CANVAS  HOME_canvas_control_block;
-
 extern GX_CONST GX_THEME *HOME_theme_table[];
 extern GX_CONST GX_STRING *HOME_language_table[];
 
@@ -46,11 +45,6 @@ GX_STUDIO_DISPLAY_INFO ui_display_table[1] =
     }
 };
 
-VOID ui_set_home_canvas_memory(GX_COLOR *memory)
-{
-    ui_display_table[HOME].canvas_memory = memory;
-}
-
 
 UINT gx_studio_text_button_create(GX_CONST GX_STUDIO_WIDGET *info, GX_WIDGET *control_block, GX_WIDGET *parent)
 {
@@ -65,6 +59,24 @@ UINT gx_studio_text_button_create(GX_CONST GX_STUDIO_WIDGET *info, GX_WIDGET *co
         gx_text_button_text_color_set(button, props->normal_text_color_id, props->selected_text_color_id);
 #else
         gx_text_button_text_color_set(button, props->normal_text_color_id, props->selected_text_color_id, props->disabled_text_color_id);
+#endif
+    }
+    return status;
+}
+
+UINT gx_studio_prompt_create(GX_CONST GX_STUDIO_WIDGET *info, GX_WIDGET *control_block, GX_WIDGET *parent)
+{
+    UINT status;
+    GX_PROMPT *prompt = (GX_PROMPT *) control_block;
+    GX_PROMPT_PROPERTIES *props = (GX_PROMPT_PROPERTIES *) info->properties;
+    status = gx_prompt_create(prompt, info->widget_name, parent, props->string_id, info->style, info->widget_id, &info->size);
+    if (status == GX_SUCCESS)
+    {
+        gx_prompt_font_set(prompt, props->font_id);
+#if defined(GUIX_5_4_0_COMPATIBILITY)
+        gx_prompt_text_color_set(prompt, props->normal_text_color_id, props->selected_text_color_id);
+#else
+        gx_prompt_text_color_set(prompt, props->normal_text_color_id, props->selected_text_color_id, props->disabled_text_color_id);
 #endif
     }
     return status;
@@ -89,20 +101,52 @@ GX_WINDOW_PROPERTIES homeHindow_properties =
 {
     0                                        /* wallpaper pixelmap id          */
 };
-GX_TEXT_BUTTON_PROPERTIES homeHindow_helloButton_properties =
+GX_TEXT_BUTTON_PROPERTIES homeHindow_startButton_properties =
 {
-    GX_STRING_ID_STRING_2,                   /* string id                      */
+    GX_STRING_ID_STRING_4,                   /* string id                      */
     GX_FONT_ID_BUTTON,                       /* font id                        */
     GX_COLOR_ID_BTN_TEXT,                    /* normal text color              */
     GX_COLOR_ID_BTN_TEXT,                    /* selected text color            */
     GX_COLOR_ID_DISABLED_TEXT                /* disabled text color            */
 };
-
-GX_CONST GX_STUDIO_WIDGET homeHindow_helloButton_define =
+GX_PROMPT_PROPERTIES homeHindow_counterPrompt_properties =
 {
-    "helloButton",
+    0,                                       /* string id                      */
+    GX_FONT_ID_PROMPT,                       /* font id                        */
+    GX_COLOR_ID_TEXT,                        /* normal text color              */
+    GX_COLOR_ID_SELECTED_TEXT,               /* selected text color            */
+    GX_COLOR_ID_DISABLED_TEXT                /* disabled text color            */
+};
+
+GX_CONST GX_STUDIO_WIDGET homeHindow_counterPrompt_define =
+{
+    "counterPrompt",
+    GX_TYPE_PROMPT,                          /* widget type                    */
+    ID_COUNTER_PROMPT,                       /* widget id                      */
+    #if defined(GX_WIDGET_USER_DATA)
+    0,                                       /* user data                      */
+    #endif
+    GX_STYLE_BORDER_THIN|GX_STYLE_ENABLED|GX_STYLE_TEXT_CENTER,   /* style flags */
+    GX_STATUS_ACCEPTS_FOCUS,                 /* status flags                   */
+    sizeof(GX_PROMPT),                       /* control block size             */
+    GX_COLOR_ID_WIDGET_FILL,                 /* normal color id                */
+    GX_COLOR_ID_SELECTED_FILL,               /* selected color id              */
+    GX_COLOR_ID_DISABLED_FILL,               /* disabled color id              */
+    gx_studio_prompt_create,                 /* create function                */
+    GX_NULL,                                 /* drawing function override      */
+    GX_NULL,                                 /* event function override        */
+    {142, 75, 341, 124},                     /* widget size                    */
+    GX_NULL,                                 /* no next widget                 */
+    GX_NULL,                                 /* no child widgets               */ 
+    offsetof(HOMEHINDOW_CONTROL_BLOCK, homeHindow_counterPrompt), /* control block */
+    (void *) &homeHindow_counterPrompt_properties /* extended properties       */
+};
+
+GX_CONST GX_STUDIO_WIDGET homeHindow_startButton_define =
+{
+    "startButton",
     GX_TYPE_TEXT_BUTTON,                     /* widget type                    */
-    ID_HELLO_BTN,                            /* widget id                      */
+    ID_START_BTN,                            /* widget id                      */
     #if defined(GX_WIDGET_USER_DATA)
     0,                                       /* user data                      */
     #endif
@@ -116,10 +160,10 @@ GX_CONST GX_STUDIO_WIDGET homeHindow_helloButton_define =
     GX_NULL,                                 /* drawing function override      */
     GX_NULL,                                 /* event function override        */
     {168, 155, 317, 204},                    /* widget size                    */
-    GX_NULL,                                 /* no next widget                 */
+    &homeHindow_counterPrompt_define,        /* next widget definition         */
     GX_NULL,                                 /* no child widgets               */ 
-    offsetof(HOMEHINDOW_CONTROL_BLOCK, homeHindow_helloButton), /* control block */
-    (void *) &homeHindow_helloButton_properties /* extended properties         */
+    offsetof(HOMEHINDOW_CONTROL_BLOCK, homeHindow_startButton), /* control block */
+    (void *) &homeHindow_startButton_properties /* extended properties         */
 };
 
 GX_CONST GX_STUDIO_WIDGET homeHindow_define =
@@ -141,7 +185,7 @@ GX_CONST GX_STUDIO_WIDGET homeHindow_define =
     GX_NULL,                                 /* event function override        */
     {0, 0, 479, 271},                        /* widget size                    */
     GX_NULL,                                 /* next widget                    */
-    &homeHindow_helloButton_define,          /* child widget                   */
+    &homeHindow_startButton_define,          /* child widget                   */
     0,                                       /* control block                  */
     (void *) &homeHindow_properties          /* extended properties            */
 };

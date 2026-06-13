@@ -7,7 +7,7 @@
 /*  https://threadx.io                                                         */
 /*                                                                             */
 /*  GUIX Studio Revision 6.5.1.202602                                          */
-/*  Date (dd.mm.yyyy): 13. 6.2026   Time (hh:mm): 12:15                        */
+/*  Date (dd.mm.yyyy): 13. 6.2026   Time (hh:mm): 17:15                        */
 /*******************************************************************************/
 
 
@@ -46,6 +46,8 @@
 
 #define GX_STRING_ID_STRING_1 1
 #define GX_STRING_ID_STRING_2 2
-#define HOME_STRING_TABLE_SIZE 3
+#define GX_STRING_ID_STRING_3 3
+#define GX_STRING_ID_STRING_4 4
+#define HOME_STRING_TABLE_SIZE 5
 
 #endif                                       /* sentry                         */

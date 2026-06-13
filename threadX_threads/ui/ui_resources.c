@@ -7,7 +7,7 @@
 /*  https://threadx.io                                                         */
 /*                                                                             */
 /*  GUIX Studio Revision 6.5.1.202602                                          */
-/*  Date (dd.mm.yyyy): 13. 6.2026   Time (hh:mm): 12:15                        */
+/*  Date (dd.mm.yyyy): 13. 6.2026   Time (hh:mm): 17:15                        */
 /*******************************************************************************/
 
 
@@ -317,14 +317,18 @@ GX_CONST GX_PIXELMAP *HOME_theme_classic_pixelmap_table[] =
 
 GX_CONST GX_UBYTE HOME_STRING_1_English[] = "button";
 GX_CONST GX_UBYTE HOME_STRING_2_English[] = "HELLO";
+GX_CONST GX_UBYTE HOME_STRING_3_English[] = "prompt";
+GX_CONST GX_UBYTE HOME_STRING_4_English[] = "START";
 
 /* String Table for HOME language English                                      */
 
-GX_CONST GX_STRING HOME_English_string_table[3] =
+GX_CONST GX_STRING HOME_English_string_table[5] =
 {
     {GX_NULL, 0},
     {(GX_CONST GX_CHAR *)HOME_STRING_1_English, sizeof(HOME_STRING_1_English) - 1},
-    {(GX_CONST GX_CHAR *)HOME_STRING_2_English, sizeof(HOME_STRING_2_English) - 1}
+    {(GX_CONST GX_CHAR *)HOME_STRING_2_English, sizeof(HOME_STRING_2_English) - 1},
+    {(GX_CONST GX_CHAR *)HOME_STRING_3_English, sizeof(HOME_STRING_3_English) - 1},
+    {(GX_CONST GX_CHAR *)HOME_STRING_4_English, sizeof(HOME_STRING_4_English) - 1}
 };
 
 /*  Language Table                                                             */

@@ -7,7 +7,7 @@
 /*  https://threadx.io                                                         */
 /*                                                                             */
 /*  GUIX Studio Revision 6.5.1.202602                                          */
-/*  Date (dd.mm.yyyy): 13. 6.2026   Time (hh:mm): 12:15                        */
+/*  Date (dd.mm.yyyy): 13. 6.2026   Time (hh:mm): 17:15                        */
 /*******************************************************************************/
 
 
@@ -24,7 +24,8 @@ extern   "C" {
 /* Define widget ids                                                           */
 
 #define ID_HOME_WINDOW 1
-#define ID_HELLO_BTN 2
+#define ID_START_BTN 2
+#define ID_COUNTER_PROMPT 3
 
 
 /* Define animation ids                                                        */
@@ -80,6 +81,15 @@ typedef struct
 
 typedef struct
 {
+    GX_RESOURCE_ID string_id;
+    GX_RESOURCE_ID font_id;
+    GX_RESOURCE_ID normal_text_color_id;
+    GX_RESOURCE_ID selected_text_color_id;
+    GX_RESOURCE_ID disabled_text_color_id;
+} GX_PROMPT_PROPERTIES;
+
+typedef struct
+{
     GX_RESOURCE_ID wallpaper_id;
 } GX_WINDOW_PROPERTIES;
 
@@ -89,7 +99,8 @@ typedef struct
 typedef struct HOMEHINDOW_CONTROL_BLOCK_STRUCT
 {
     GX_WINDOW_MEMBERS_DECLARE
-    GX_TEXT_BUTTON homeHindow_helloButton;
+    GX_TEXT_BUTTON homeHindow_startButton;
+    GX_PROMPT homeHindow_counterPrompt;
 } HOMEHINDOW_CONTROL_BLOCK;
 
 
@@ -128,10 +139,10 @@ typedef struct GX_STUDIO_DISPLAY_INFO_STRUCT
 /* Declare Studio-generated functions for creating top-level widgets           */
 
 UINT gx_studio_text_button_create(GX_CONST GX_STUDIO_WIDGET *info, GX_WIDGET *control_block, GX_WIDGET *parent);
+UINT gx_studio_prompt_create(GX_CONST GX_STUDIO_WIDGET *info, GX_WIDGET *control_block, GX_WIDGET *parent);
 UINT gx_studio_window_create(GX_CONST GX_STUDIO_WIDGET *info, GX_WIDGET *control_block, GX_WIDGET *parent);
 GX_WIDGET *gx_studio_widget_create(GX_BYTE *storage, GX_CONST GX_STUDIO_WIDGET *definition, GX_WIDGET *parent);
 UINT gx_studio_named_widget_create(char *name, GX_WIDGET *parent, GX_WIDGET **new_widget);
-VOID ui_set_home_canvas_memory(GX_COLOR *memory);
 UINT gx_studio_display_configure(USHORT display, UINT (*driver)(GX_DISPLAY *), GX_UBYTE language, USHORT theme, GX_WINDOW_ROOT **return_root);
 
 /* Determine if a C++ compiler is being used.  If so, complete the standard
