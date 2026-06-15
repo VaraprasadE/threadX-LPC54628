@@ -114,9 +114,9 @@ static void lpc_lcd_hw_init(void)
     lcdConfig.vbp            = LCD_VBP;
     lcdConfig.polarityFlags  = LCD_POL_FLAGS;
     lcdConfig.upperPanelAddr = (uint32_t)s_frameBuf;
-    lcdConfig.bpp            = kLCDC_16BPP;
+    lcdConfig.bpp            = kLCDC_16BPP565;
     lcdConfig.display        = kLCDC_DisplayTFT;
-    lcdConfig.swapRedBlue    = false;
+    lcdConfig.swapRedBlue    = true;
     lcdConfig.dataFormat     = kLCDC_WinCeMode;
 
     LCDC_Init(APP_LCD, &lcdConfig, LCD_INPUT_CLK_FREQ);
